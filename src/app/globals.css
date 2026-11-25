@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4f6f9;
+  --foreground: #0f172a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: light;
+  background: var(--background);
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  background:
+    radial-gradient(
+      70% 55% at 50% -10%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0) 72%
+    ),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.keyboardViewport {
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 3px 2px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.keyboardViewport::-webkit-scrollbar {
+  height: 8px;
+}
+
+.keyboardViewport::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.keyboardViewport::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+.keyboardFrame {
+  container-type: inline-size;
+  width: 100%;
+  min-width: 880px;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding: 14px;
+  border: 1px solid #dbe1e9;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), transparent 35%),
+    linear-gradient(180deg, #eef1f5 0%, #e6eaf0 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 18px 32px -26px rgba(15, 23, 42, 0.45);
+}
+
+.keyboardScrollHint {
+  display: block;
+}
+
+@media (min-width: 720px) {
+  .keyboardFrame {
+    min-width: 0;
+  }
+
+  .keyboardScrollHint {
+    display: none;
+  }
+}
+
+.keyboardBoard {
+  --key-gap: clamp(1.5px, 0.26cqw, 3px);
+
+  display: grid;
+  grid-template-columns: repeat(92, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  aspect-ratio: 23 / 6;
+  font-size: clamp(9.5px, 1.08cqw, 12.5px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.keyboardCell {
+  min-width: 0;
+  min-height: 0;
+  padding: var(--key-gap);
+}
+
+.keyboardKey {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 2px;
+  border: 1px solid #d8dee7;
+  border-radius: clamp(4px, 0.58cqw, 8px);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow:
+    0 1px 0 rgba(15, 23, 42, 0.12),
+    0 1px 2px rgba(15, 23, 42, 0.05);
+  color: #475569;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  transition:
+    color 100ms ease,
+    background-color 100ms ease,
+    border-color 100ms ease,
+    box-shadow 100ms ease,
+    transform 70ms ease;
+}
+
+.keyboardLabel {
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.keyboardSecondary {
+  position: absolute;
+  top: 0.3em;
+  left: 0.38em;
+  color: #94a3b8;
+  font-size: 0.66em;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.keyboardKey[data-has-secondary="true"] .keyboardLabel {
+  transform: translateY(0.16em);
+}
+
+.keyboardKey[data-variant="modifier"] .keyboardLabel,
+.keyboardKey[data-variant="function"] .keyboardLabel {
+  font-size: 0.86em;
+}
+
+.keyboardKey[data-variant="numpad"] .keyboardLabel {
+  font-variant-numeric: tabular-nums;
+}
+
+.keyboardKey[data-code="Space"] .keyboardLabel {
+  letter-spacing: 0.14em;
+  font-size: 0.8em;
+  text-transform: uppercase;
+}
+
+.keyboardKey[data-code^="Arrow"] .keyboardLabel {
+  font-size: 1.18em;
+  font-weight: 600;
+}
+
+.keyboardKey[data-tested="true"]:not([data-pressed="true"]) {
+  border-color: #cadcf8;
+  background: linear-gradient(180deg, #f5f9ff 0%, #eaf2ff 100%);
+  color: #1d4ed8;
+}
+
+.keyboardKey[data-tested="true"]:not([data-pressed="true"]) .keyboardSecondary {
+  color: #7ba2e8;
+}
+
+.keyboardKey[data-pressed="true"] {
+  border-color: #1d4ed8;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  box-shadow:
+    0 0 0 1px rgba(37, 99, 235, 0.28),
+    0 5px 14px -6px rgba(37, 99, 235, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  transform: translateY(1px);
+}
+
+.keyboardKey[data-pressed="true"] .keyboardSecondary {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keyboardKey {
+    transition: none;
+  }
+
+  .keyboardKey[data-pressed="true"] {
+    transform: none;
+  }
+}
